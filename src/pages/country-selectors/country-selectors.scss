@@ -1,0 +1,36 @@
+@import '../../styles/styles';
+
+.country-selector {
+  padding: $gap;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: $gap-xl;
+  height: 100%;
+
+  &__title {
+    font-size: 20px;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  &__count-left {
+    font-size: 14px;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 300;
+
+    strong {
+      font-weight: 500;
+    }
+  }
+}
+
+.countries {
+  &-container {
+    display: flex;
+    gap: $gap-xl;
+    justify-content: center;
+  }
+}

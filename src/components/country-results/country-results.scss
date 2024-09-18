@@ -1,0 +1,26 @@
+@import '../../index';
+
+.country-results {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-md;
+  overflow-y: auto;
+
+  &-container {
+    display: flex;
+    flex-direction: column;
+    gap: $gap-xl;
+    overflow-y: hidden;
+  }
+
+  &-item {
+    padding: $gap-sm 0;
+    display: flex;
+    border-bottom: 1px solid var(--accent-color);
+
+    &__name {
+      flex-grow: 1;
+      font-weight: 700;
+    }
+  }
+}

@@ -1,0 +1,40 @@
+// TODO: add styles to general scope of view
+@import '../../styles/styles';
+
+.country-card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: $gap-md;
+  width: 100%;
+  padding: 0;
+  background-color: transparent;
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+
+  &-container {
+    position: relative;
+    border-radius: 3px;
+    overflow: hidden;
+    border: 1px solid var(--accent-color);
+    width: 250px;
+  }
+
+  &__flag {
+    display: block;
+    width: 100%;
+  }
+
+  &__name {
+    padding: $gap-sm;
+    padding-top: 0;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 300;
+  }
+}
+
+.loader-container {
+  position: absolute;
+}
