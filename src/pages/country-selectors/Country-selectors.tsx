@@ -7,14 +7,12 @@ import useFetch from '../../utilits/hooks/use-fetch';
 import { API_DOMAIN_URL, API_ALL_COUNTRIES } from '../../utilits/constants/api';
 import ICountry from '../../utilits/models/ICountry';
 import CountryCard from '../../components/country-card/Country-card';
-import {
-  DEFAULT_RATE as DEFAULT_ELO_RATE,
-  K_FACTOR,
-} from '../../utilits/constants/elo-rating';
+import { DEFAULT_ELO_RATE, K_FACTOR } from '../../utilits/constants/elo-rating';
 import CountryResults from '../../components/country-results/Country-results';
 import EloRatingSystem from '../../utilits/elo-rating-system';
 
 import './country-selectors.scss';
+import ApiCountryData from '../../utilits/types/api-cCountry-data';
 
 interface CountrySelectorProps {
   /**
@@ -23,27 +21,11 @@ interface CountrySelectorProps {
   onLoaded(): void;
 }
 
-type apiCountryData = {
-  cca3: string;
-  name: {
-    common: string;
-  };
-  flags: {
-    svg: string;
-    png: string;
-  };
-  maps: {
-    googleMaps: string;
-  };
-  capital: string[];
-  region: string;
-};
-
 /**
  * Country selectors.
  * @param props
  */
-const CountrySelector = ({ onLoaded: onReady }: CountrySelectorProps) => {
+const CountrySelector = ({ onLoaded }: CountrySelectorProps) => {
   const elo = new EloRatingSystem(K_FACTOR);
   const [countries, setCountries] = useState<ICountry[]>([]);
   const [regions, setRegion] = useState<string[]>([]);
@@ -90,23 +72,26 @@ const CountrySelector = ({ onLoaded: onReady }: CountrySelectorProps) => {
     setCountries(updatedCountries);
   };
 
-  useFetch<apiCountryData[]>(
+  useFetch<ApiCountryData[]>(
     `${API_DOMAIN_URL}/${API_ALL_COUNTRIES}`,
     [],
-    (data: apiCountryData[]) => {
+    (data: ApiCountryData[]) => {
       console.log('useFetch');
 
       const regions = new Set<string>();
       const counties: ICountry[] = [];
       data.forEach(countryData => {
         const country: ICountry = {
-          id: countryData.cca3,
-          name: countryData.name.common,
-          flagURL: countryData.flags.svg ?? countryData.flags.png,
-          mapURL: countryData.maps.googleMaps,
           capital: countryData.capital,
-          rating: DEFAULT_ELO_RATE,
+          flagURL: countryData.flags.svg ?? countryData.flags.png,
+          id: countryData.cca3,
           isRated: false,
+          mapURL: countryData.maps.googleMaps,
+          name: countryData.name.common,
+          path: countryData.name.common
+            .replaceAll(' ', '-')
+            .toLocaleLowerCase(),
+          rating: DEFAULT_ELO_RATE,
           region: countryData.region,
         };
 
@@ -116,10 +101,11 @@ const CountrySelector = ({ onLoaded: onReady }: CountrySelectorProps) => {
 
       setCountries(counties);
       setRegion(Array.from(regions));
-      onReady();
+      onLoaded();
     },
-    () => {
-      onReady();
+    error => {
+      console.error(error);
+      onLoaded();
     }
   );
 

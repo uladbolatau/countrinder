@@ -3,6 +3,8 @@ import CountryRegionFilter from '../country-region-filter/Country-region-filter'
 import ICountry from '../../utilits/models/ICountry';
 
 import './country-results.scss';
+import { Link, Outlet } from 'react-router-dom';
+import { PATH_DEFAULT_RATE } from '../../utilits/constants/path';
 
 interface CountryResultsProps {
   countries: ICountry[];
@@ -42,13 +44,21 @@ const CountryResults = ({ countries, regions }: CountryResultsProps) => {
         regions={regions}
         onRegionsChecked={regions => setCheckedRegions(regions)}
       ></CountryRegionFilter>
+      <div>
+        <Outlet />
+      </div>
       <ul className="country-results">
         {renderFilterdResults.map(country => (
-          <li key={country.id} className="country-results-item">
-            <h3 className="country-results-item__name">{country.name}</h3>
-            <span className="country-results-item__rating">
-              {country.rating}
-            </span>
+          <li key={country.id}>
+            <Link
+              to={`${PATH_DEFAULT_RATE}/${country.path}`}
+              className="country-results-item"
+            >
+              <h3 className="country-results-item__name">{country.name}</h3>
+              <span className="country-results-item__rating">
+                {country.rating}
+              </span>
+            </Link>
           </li>
         ))}
       </ul>
