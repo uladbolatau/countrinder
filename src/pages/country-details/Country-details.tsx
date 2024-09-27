@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import ICountry from '../../utilits/models/ICountry';
-import useFetch from '../../utilits/hooks/use-fetch';
-import { API_COUNTRY_NAME, API_DOMAIN_URL } from '../../utilits/constants/api';
-import ApiCountryData from '../../utilits/types/api-cCountry-data';
-import { DEFAULT_ELO_RATE } from '../../utilits/constants/elo-rating';
+import ICountry from '../../utilities/models/ICountry';
+import useFetch from '../../utilities/hooks/use-fetch';
+import {
+  API_COUNTRY_NAME,
+  API_DOMAIN_URL,
+} from '../../utilities/constants/api';
+import ApiCountryData from '../../utilities/types/api-cCountry-data';
+import { DEFAULT_ELO_RATE } from '../../utilities/constants/elo-rating';
 
 import './country-details.scss';
 

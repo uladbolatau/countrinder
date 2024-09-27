@@ -2,17 +2,23 @@ console.clear();
 
 import React, { useEffect, useState } from 'react';
 
-import useFetch from '../../utilits/hooks/use-fetch';
+import useFetch from '../../utilities/hooks/use-fetch';
 
-import { API_DOMAIN_URL, API_ALL_COUNTRIES } from '../../utilits/constants/api';
-import ICountry from '../../utilits/models/ICountry';
+import {
+  API_DOMAIN_URL,
+  API_ALL_COUNTRIES,
+} from '../../utilities/constants/api';
+import ICountry from '../../utilities/models/ICountry';
 import CountryCard from '../../components/country-card/Country-card';
-import { DEFAULT_ELO_RATE, K_FACTOR } from '../../utilits/constants/elo-rating';
+import {
+  DEFAULT_ELO_RATE,
+  K_FACTOR,
+} from '../../utilities/constants/elo-rating';
 import CountryResults from '../../components/country-results/Country-results';
-import EloRatingSystem from '../../utilits/elo-rating-system';
+import EloRatingSystem from '../../utilities/elo-rating-system';
 
 import './country-selectors.scss';
-import ApiCountryData from '../../utilits/types/api-cCountry-data';
+import ApiCountryData from '../../utilities/types/api-cCountry-data';
 
 interface CountrySelectorProps {
   /**

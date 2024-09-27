@@ -2,7 +2,7 @@ import React from 'react';
 import jss from 'jss';
 import { Link } from 'react-router-dom';
 import preset from 'jss-preset-default';
-import { PATH_ABOUT, PATH_DEFAULT_RATE } from '../../utilits/constants/path';
+import { PATH_ABOUT, PATH_DEFAULT_RATE } from '../../utilities/constants/path';
 
 jss.setup(preset());
 

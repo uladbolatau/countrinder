@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import CountryRegionFilter from '../country-region-filter/Country-region-filter';
-import ICountry from '../../utilits/models/ICountry';
+import ICountry from '../../utilities/models/ICountry';
 
 import './country-results.scss';
 import { Link, Outlet } from 'react-router-dom';
-import { PATH_DEFAULT_RATE } from '../../utilits/constants/path';
+import { PATH_DEFAULT_RATE } from '../../utilities/constants/path';
 
 interface CountryResultsProps {
   countries: ICountry[];
@@ -12,17 +12,17 @@ interface CountryResultsProps {
 }
 
 const CountryResults = ({ countries, regions }: CountryResultsProps) => {
-  const [filterdResults, setFilterdResults] = useState<ICountry[]>(countries);
+  const [filteredResults, setFilteredResults] = useState<ICountry[]>(countries);
   const [checkedRegions, setCheckedRegions] = useState<string[]>([]);
-  const renderFilterdResults = useMemo(() => {
-    return filterdResults.sort((prevCountry, nextCountry) => {
+  const renderFilteredResults = useMemo(() => {
+    return filteredResults.sort((prevCountry, nextCountry) => {
       if (prevCountry.rating - nextCountry.rating === 0) {
         return prevCountry.name > nextCountry.name ? 1 : -1;
       } else {
         return prevCountry.rating - nextCountry.rating < 0 ? 1 : -1;
       }
     });
-  }, [filterdResults]);
+  }, [filteredResults]);
 
   useEffect(() => {
     let newFilteredCountries: ICountry[] = [];
@@ -35,7 +35,7 @@ const CountryResults = ({ countries, regions }: CountryResultsProps) => {
       );
     }
 
-    setFilterdResults(newFilteredCountries);
+    setFilteredResults(newFilteredCountries);
   }, [countries, checkedRegions]);
 
   return (
@@ -48,7 +48,7 @@ const CountryResults = ({ countries, regions }: CountryResultsProps) => {
         <Outlet />
       </div>
       <ul className="country-results">
-        {renderFilterdResults.map(country => (
+        {renderFilteredResults.map(country => (
           <li key={country.id}>
             <Link
               to={`${PATH_DEFAULT_RATE}/${country.path}`}

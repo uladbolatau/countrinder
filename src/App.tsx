@@ -6,7 +6,7 @@ import Header from './components/header/Header';
 
 import './App.scss';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { PATH_ABOUT, PATH_DEFAULT_RATE } from './utilits/constants/path';
+import { PATH_ABOUT, PATH_DEFAULT_RATE } from './utilities/constants/path';
 import About from './pages/about/About';
 import CountryDetails from './pages/country-details/Country-details';
 
