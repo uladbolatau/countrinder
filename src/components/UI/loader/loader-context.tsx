@@ -1,11 +1,5 @@
 import { createContext } from 'react';
 
-/**
- * Context to control state of Loader component.
- *
- * @type boolean
- * @default false
- */
-const LoaderContext = createContext(() => {});
+const onLoadContext = createContext(() => {});
 
-export default LoaderContext;
+export default onLoadContext;

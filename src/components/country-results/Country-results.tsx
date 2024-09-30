@@ -4,7 +4,7 @@ import ICountry from '../../utilities/models/ICountry';
 
 import './country-results.scss';
 import { Link, Outlet } from 'react-router-dom';
-import { PATH_DEFAULT_RATE } from '../../utilities/constants/path';
+import PATH from '../../utilities/constants/path';
 
 interface CountryResultsProps {
   countries: ICountry[];
@@ -51,7 +51,7 @@ const CountryResults = ({ countries, regions }: CountryResultsProps) => {
         {renderFilteredResults.map(country => (
           <li key={country.id}>
             <Link
-              to={`${PATH_DEFAULT_RATE}/${country.path}`}
+              to={`${PATH.rate.root}/${country.path}`}
               className="country-results-item"
             >
               <h3 className="country-results-item__name">{country.name}</h3>

@@ -1,56 +1,40 @@
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
-import ICountry from '../../utilities/models/ICountry';
-import useFetch from '../../utilities/hooks/use-fetch';
+import React, { useContext, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+
+import './country-details.scss';
 import {
   API_COUNTRY_NAME,
   API_DOMAIN_URL,
 } from '../../utilities/constants/api';
+import PATH from '../../utilities/constants/path';
 import ApiCountryData from '../../utilities/types/api-cCountry-data';
-import { DEFAULT_ELO_RATE } from '../../utilities/constants/elo-rating';
+import { CountryToModel } from '../../utilities/Country-helpers';
+import ICountry from '../../utilities/models/ICountry';
+import useFetch from '../../utilities/hooks/use-fetch';
+import onLoadContext from '../../components/UI/loader/loader-context';
 
-import './country-details.scss';
+const CountryDetails = () => {
+  const setLoading = useContext(onLoadContext);
 
-interface CountryDetailsProps {
-  /**
-   * Mark component as loaded.
-   */
-  onLoaded(): void;
-}
-
-const CountryDetails = ({ onLoaded }: CountryDetailsProps) => {
+  const navigate = useNavigate();
   const { countryId } = useParams();
   const [country, setCountry] = useState<ICountry>();
+  const getCountryDataURL = `${API_DOMAIN_URL}/${API_COUNTRY_NAME}/${countryId?.replaceAll(
+    '-',
+    '%20'
+  )}`;
 
   useFetch(
-    `${API_DOMAIN_URL}/${API_COUNTRY_NAME}/${countryId?.replaceAll(
-      '-',
-      '%20'
-    )}`,
-    [],
+    getCountryDataURL,
     (countryDataArray: ApiCountryData[]) => {
-      const countryData = countryDataArray[0];
-
-      const country: ICountry = {
-        capital: countryData.capital,
-        flagURL: countryData.flags.svg ?? countryData.flags.png,
-        id: countryData.cca3,
-        isRated: false,
-        mapURL: countryData.maps.googleMaps,
-        name: countryData.name.common,
-        path: countryData.name.common.replaceAll(' ', '-').toLocaleLowerCase(),
-        rating: DEFAULT_ELO_RATE,
-        region: countryData.region,
-      };
-
-      console.log(country.mapURL);
-
+      const country = CountryToModel(countryDataArray[0]);
       setCountry(country);
-      onLoaded();
+      setLoading();
     },
     error => {
-      console.error(error);
-      onLoaded();
+      console.error('CountryDetails.useFetch', error);
+      navigate(`${PATH.not_found}`);
+      setLoading();
     }
   );
 
@@ -75,14 +59,6 @@ const CountryDetails = ({ onLoaded }: CountryDetailsProps) => {
           <strong>Region: </strong> {country?.region}
         </li>
       </ul>
-      <iframe
-        className="country-details-map"
-        height="400"
-        loading="lazy"
-        allowFullScreen
-        referrerPolicy="no-referrer-when-downgrade"
-        src={country?.mapURL}
-      ></iframe>
     </section>
   );
 };

@@ -2,13 +2,13 @@ import React from 'react';
 import jss from 'jss';
 import { Link } from 'react-router-dom';
 import preset from 'jss-preset-default';
-import { PATH_ABOUT, PATH_DEFAULT_RATE } from '../../utilities/constants/path';
+import PATH from '../../utilities/constants/path';
 
 jss.setup(preset());
 
 const styles = jss.createStyleSheet({
   headerContainer: {
-    padding: '8px',
+    padding: '16px',
     zIndex: '10000',
   },
   headerNav: {
@@ -16,21 +16,39 @@ const styles = jss.createStyleSheet({
     justifyContent: 'center',
     gap: '24px',
   },
+  headerNavLink: {
+    textDecoration: 'none',
+    fontWeight: 300,
+  },
 });
 
 styles.attach();
 
 const Header = () => {
+  const navigation = [
+    {
+      path: PATH.rate.root,
+      name: 'Rate',
+    },
+    {
+      path: PATH.about,
+      name: 'About',
+    },
+  ];
   return (
     <header className={styles.classes.headerContainer}>
       <nav>
         <ul className={styles.classes.headerNav}>
-          <li className="header-nav__item">
-            <Link to={`${PATH_DEFAULT_RATE}`}>Rate</Link>
-          </li>
-          <li className="header-nav__item">
-            <Link to={`${PATH_ABOUT}`}>About</Link>
-          </li>
+          {navigation.map(item => (
+            <li key={item.path} className="header-nav-item">
+              <Link
+                className={styles.classes.headerNavLink}
+                to={`${item.path}`}
+              >
+                {item.name}
+              </Link>
+            </li>
+          ))}
         </ul>
       </nav>
     </header>

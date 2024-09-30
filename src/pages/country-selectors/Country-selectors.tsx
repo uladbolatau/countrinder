@@ -1,41 +1,33 @@
 console.clear();
 
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+
+import './country-selectors.scss';
 
 import useFetch from '../../utilities/hooks/use-fetch';
-
 import {
   API_DOMAIN_URL,
   API_ALL_COUNTRIES,
 } from '../../utilities/constants/api';
 import ICountry from '../../utilities/models/ICountry';
 import CountryCard from '../../components/country-card/Country-card';
-import {
-  DEFAULT_ELO_RATE,
-  K_FACTOR,
-} from '../../utilities/constants/elo-rating';
 import CountryResults from '../../components/country-results/Country-results';
 import EloRatingSystem from '../../utilities/elo-rating-system';
-
-import './country-selectors.scss';
 import ApiCountryData from '../../utilities/types/api-cCountry-data';
-
-interface CountrySelectorProps {
-  /**
-   * Mark component as loaded.
-   */
-  onLoaded(): void;
-}
+import { CountryToModel } from '../../utilities/Country-helpers';
+import onLoadContext from '../../components/UI/loader/loader-context';
 
 /**
  * Country selectors.
  * @param props
  */
-const CountrySelector = ({ onLoaded }: CountrySelectorProps) => {
-  const elo = new EloRatingSystem(K_FACTOR);
+const CountrySelector = () => {
+  const elo = new EloRatingSystem();
+  const setLoading = useContext(onLoadContext);
   const [countries, setCountries] = useState<ICountry[]>([]);
   const [regions, setRegion] = useState<string[]>([]);
   const [countriesPair, setCountriesPair] = useState<ICountry[]>([]);
+  const pathToAllCountries = `${API_DOMAIN_URL}/${API_ALL_COUNTRIES}`;
 
   const selectCountriesPair = () => {
     const leftCountry: ICountry = getUniqueCountry();
@@ -79,39 +71,31 @@ const CountrySelector = ({ onLoaded }: CountrySelectorProps) => {
   };
 
   useFetch<ApiCountryData[]>(
-    `${API_DOMAIN_URL}/${API_ALL_COUNTRIES}`,
-    [],
+    pathToAllCountries,
     (data: ApiCountryData[]) => {
-      console.log('useFetch');
+      console.log('CountrySelector.useFetch');
 
       const regions = new Set<string>();
       const counties: ICountry[] = [];
-      data.forEach(countryData => {
-        const country: ICountry = {
-          capital: countryData.capital,
-          flagURL: countryData.flags.svg ?? countryData.flags.png,
-          id: countryData.cca3,
-          isRated: false,
-          mapURL: countryData.maps.googleMaps,
-          name: countryData.name.common,
-          path: countryData.name.common
-            .replaceAll(' ', '-')
-            .toLocaleLowerCase(),
-          rating: DEFAULT_ELO_RATE,
-          region: countryData.region,
-        };
 
-        regions.add(countryData.region);
-        counties.push(country);
+      data.forEach(countryData => {
+        try {
+          const country = CountryToModel(countryData);
+
+          regions.add(countryData.region);
+          counties.push(country);
+        } catch (error) {
+          console.error(error);
+        }
       });
 
       setCountries(counties);
       setRegion(Array.from(regions));
-      onLoaded();
+      setLoading();
     },
     error => {
       console.error(error);
-      onLoaded();
+      setLoading();
     }
   );
 

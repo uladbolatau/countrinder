@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
+import onLoadContext from '../../components/UI/loader/loader-context';
+
+import './about.scss';
 
 const About = () => {
+  const setLoading = useContext(onLoadContext);
+
+  useEffect(() => {
+    setLoading();
+  }, []);
+
   return (
-    <section>
-      <h1>About test page</h1>
+    <section className="about">
+      <h1 className="about__title">About Countrinder</h1>
     </section>
   );
 };

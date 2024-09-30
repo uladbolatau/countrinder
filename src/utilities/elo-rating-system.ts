@@ -1,9 +1,9 @@
-class EloRatingSystem {
-  private kFactor: number;
+import { K_FACTOR } from './constants/elo-rating';
 
-  constructor(kFactor: number = 32) {
-    this.kFactor = kFactor;
-  }
+class EloRatingSystem {
+  private kFactor = K_FACTOR;
+
+  constructor() {}
 
   private expectedScore(playerRating: number, opponentRating: number): number {
     return 1 / (1 + Math.pow(10, (opponentRating - playerRating) / 400));

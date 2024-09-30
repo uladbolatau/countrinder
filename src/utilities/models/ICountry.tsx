@@ -3,7 +3,6 @@ interface ICountry {
   flagURL: string;
   id: string;
   isRated: boolean;
-  mapURL: string;
   name: string;
   path: string;
   rating: number;

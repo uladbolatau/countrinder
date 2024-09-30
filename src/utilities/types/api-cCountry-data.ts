@@ -7,9 +7,6 @@ type ApiCountryData = {
     svg: string;
     png: string;
   };
-  maps: {
-    googleMaps: string;
-  };
   capital: string[];
   region: string;
 };

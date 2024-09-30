@@ -2,14 +2,11 @@ import { useEffect } from 'react';
 
 const useFetch = <T,>(
   endpoint: string,
-  variablesArray: unknown[],
   resolve: (data: T) => void,
-  reject: (data: Error) => void
+  reject: (data: Error) => void,
+  variablesArray: unknown[] = []
 ) => {
   useEffect(() => {
-    /**
-     * TODO: Test does it works.
-     */
     const controller = new AbortController();
     const signal = controller.signal;
 
@@ -30,7 +27,7 @@ const useFetch = <T,>(
       });
 
     return () => {
-      controller.abort();
+      controller.abort(`Page was changed.`);
     };
   }, variablesArray);
 };
