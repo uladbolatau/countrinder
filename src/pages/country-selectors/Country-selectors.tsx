@@ -12,9 +12,8 @@ import {
 import ICountry from '../../utilities/models/ICountry';
 import CountryCard from '../../components/country-card/Country-card';
 import CountryResults from '../../components/country-results/Country-results';
-import EloRatingSystem from '../../utilities/elo-rating-system';
 import ApiCountryData from '../../utilities/types/api-cCountry-data';
-import { CountryToModel } from '../../utilities/Country-helpers';
+import CountryHelper from '../../utilities/Country-helpers';
 import onLoadContext from '../../components/UI/loader/loader-context';
 
 /**
@@ -22,50 +21,14 @@ import onLoadContext from '../../components/UI/loader/loader-context';
  * @param props
  */
 const CountrySelector = () => {
-  const elo = new EloRatingSystem();
+  const countryHelper = new CountryHelper();
   const setLoading = useContext(onLoadContext);
+  const pathToAllCountries = `${API_DOMAIN_URL}/${API_ALL_COUNTRIES}`;
   const [countries, setCountries] = useState<ICountry[]>([]);
   const [regions, setRegion] = useState<string[]>([]);
   const [countriesPair, setCountriesPair] = useState<ICountry[]>([]);
-  const pathToAllCountries = `${API_DOMAIN_URL}/${API_ALL_COUNTRIES}`;
-
-  const selectCountriesPair = () => {
-    const leftCountry: ICountry = getUniqueCountry();
-    const rightCountry: ICountry = getUniqueCountry(leftCountry);
-
-    setCountriesPair([leftCountry, rightCountry]);
-  };
-
-  const getUniqueCountry = (preSelectedCountry?: ICountry): ICountry => {
-    const index = Math.floor(Math.random() * countries.length);
-    const country: ICountry = countries[index];
-    const isNotSame = preSelectedCountry?.id !== country.id;
-
-    if (isNotSame) {
-      return country;
-    } else {
-      return getUniqueCountry(preSelectedCountry);
-    }
-  };
-
   const onClick = (selectedCountry: ICountry) => {
-    const updatedCountries = [...countries];
-    const country = updatedCountries.find(
-      country => selectedCountry.id === country.id
-    );
-    const opponentRating = countriesPair.find(
-      value => selectedCountry.id !== value.id
-    );
-
-    if (!country || !opponentRating) {
-      throw new Error('Somehow country not found.');
-    }
-
-    const currentRate = country.rating;
-    const opponentRate = opponentRating.rating;
-
-    opponentRating.rating = elo.updateRating(opponentRate, currentRate, 0);
-    country.rating = elo.updateRating(currentRate, opponentRate, 1);
+    const updatedCountries = countryHelper.rateCountry(selectedCountry);
 
     setCountries(updatedCountries);
   };
@@ -75,22 +38,10 @@ const CountrySelector = () => {
     (data: ApiCountryData[]) => {
       console.log('CountrySelector.useFetch');
 
-      const regions = new Set<string>();
-      const counties: ICountry[] = [];
+      countryHelper.setCountries(data);
 
-      data.forEach(countryData => {
-        try {
-          const country = CountryToModel(countryData);
-
-          regions.add(countryData.region);
-          counties.push(country);
-        } catch (error) {
-          console.error(error);
-        }
-      });
-
-      setCountries(counties);
-      setRegion(Array.from(regions));
+      setCountries(countryHelper.getCountries());
+      setRegion(countryHelper.getRegions());
       setLoading();
     },
     error => {
@@ -103,7 +54,9 @@ const CountrySelector = () => {
     console.log('useEffect.countries', countries);
 
     if (countries.length !== 0) {
-      selectCountriesPair();
+      const countriesPair = countryHelper.getCountriesPair();
+
+      setCountriesPair(countriesPair);
     }
   }, [countries]);
 

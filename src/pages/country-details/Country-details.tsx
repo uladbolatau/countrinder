@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import './country-details.scss';
@@ -8,14 +8,16 @@ import {
 } from '../../utilities/constants/api';
 import PATH from '../../utilities/constants/path';
 import ApiCountryData from '../../utilities/types/api-cCountry-data';
-import { CountryToModel } from '../../utilities/Country-helpers';
 import ICountry from '../../utilities/models/ICountry';
 import useFetch from '../../utilities/hooks/use-fetch';
 import onLoadContext from '../../components/UI/loader/loader-context';
+import CountryHelpers from '../../utilities/Country-helpers';
 
 const CountryDetails = () => {
   const setLoading = useContext(onLoadContext);
 
+  const [isDataLoaded, setDataLoaded] = useState(false);
+  const [isImageLoaded, setImageLoaded] = useState(false);
   const navigate = useNavigate();
   const { countryId } = useParams();
   const [country, setCountry] = useState<ICountry>();
@@ -27,21 +29,29 @@ const CountryDetails = () => {
   useFetch(
     getCountryDataURL,
     (countryDataArray: ApiCountryData[]) => {
-      const country = CountryToModel(countryDataArray[0]);
+      const country = CountryHelpers.getCountryFromRaw(countryDataArray[0]);
       setCountry(country);
-      setLoading();
+      setDataLoaded(true);
     },
     error => {
       console.error('CountryDetails.useFetch', error);
       navigate(`${PATH.not_found}`);
-      setLoading();
     }
   );
+
+  useEffect(() => {
+    if (isDataLoaded && isImageLoaded) {
+      setLoading();
+    }
+  }, [isDataLoaded, isImageLoaded]);
 
   return (
     <section className="country-details">
       <div className="country-details-flag">
         <img
+          onLoad={() => {
+            setImageLoaded(true);
+          }}
           className="country-details-flag__img"
           src={country?.flagURL}
           alt={country?.name}
