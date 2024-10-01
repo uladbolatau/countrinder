@@ -1,6 +1,7 @@
 console.clear();
 
 import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import './country-selectors.scss';
 
@@ -9,13 +10,15 @@ import {
   API_DOMAIN_URL,
   API_ALL_COUNTRIES,
 } from '../../utilities/constants/api';
-import ICountry from '../../utilities/models/ICountry';
-import CountryCard from '../../components/country-card/Country-card';
-import CountryResults from '../../components/country-results/Country-results';
-import EloRatingSystem from '../../utilities/elo-rating-system';
 import ApiCountryData from '../../utilities/types/api-cCountry-data';
+import CountryCard from '../../components/country-card/Country-card';
+import CountryRegionFilter from '../../components/country-region-filter/Country-region-filter';
+import CountryResults from '../../components/country-results/Country-results';
 import { CountryToModel } from '../../utilities/Country-helpers';
+import EloRatingSystem from '../../utilities/elo-rating-system';
+import ICountry from '../../utilities/models/ICountry';
 import onLoadContext from '../../components/UI/loader/loader-context';
+import PATH from '../../utilities/constants/path';
 
 /**
  * Country selectors.
@@ -24,10 +27,14 @@ import onLoadContext from '../../components/UI/loader/loader-context';
 const CountrySelector = () => {
   const elo = new EloRatingSystem();
   const setLoading = useContext(onLoadContext);
-  const [countries, setCountries] = useState<ICountry[]>([]);
-  const [regions, setRegion] = useState<string[]>([]);
-  const [countriesPair, setCountriesPair] = useState<ICountry[]>([]);
+  const navigate = useNavigate();
   const pathToAllCountries = `${API_DOMAIN_URL}/${API_ALL_COUNTRIES}`;
+
+  const [checkedRegions, setCheckedRegions] = useState<string[]>([]);
+  const [countries, setCountries] = useState<ICountry[]>([]);
+  const [countriesPair, setCountriesPair] = useState<ICountry[]>([]);
+  const [filteredResults, setFilteredResults] = useState<ICountry[]>([]);
+  const [regions, setRegion] = useState<string[]>([]);
 
   const selectCountriesPair = () => {
     const leftCountry: ICountry = getUniqueCountry();
@@ -37,8 +44,8 @@ const CountrySelector = () => {
   };
 
   const getUniqueCountry = (preSelectedCountry?: ICountry): ICountry => {
-    const index = Math.floor(Math.random() * countries.length);
-    const country: ICountry = countries[index];
+    const index = Math.floor(Math.random() * filteredResults.length);
+    const country: ICountry = filteredResults[index];
     const isNotSame = preSelectedCountry?.id !== country.id;
 
     if (isNotSame) {
@@ -68,6 +75,7 @@ const CountrySelector = () => {
     country.rating = elo.updateRating(currentRate, opponentRate, 1);
 
     setCountries(updatedCountries);
+    setFilteredResults(updatedCountries);
   };
 
   useFetch<ApiCountryData[]>(
@@ -95,7 +103,7 @@ const CountrySelector = () => {
     },
     error => {
       console.error(error);
-      setLoading();
+      navigate(`${PATH.not_found}`);
     }
   );
 
@@ -105,7 +113,21 @@ const CountrySelector = () => {
     if (countries.length !== 0) {
       selectCountriesPair();
     }
-  }, [countries]);
+  }, [filteredResults]);
+
+  useEffect(() => {
+    let newFilteredCountries: ICountry[] = [];
+
+    if (checkedRegions.length === 0) {
+      newFilteredCountries = [...countries];
+    } else {
+      newFilteredCountries = countries.filter((country: ICountry) =>
+        checkedRegions.includes(country.region)
+      );
+    }
+
+    setFilteredResults(newFilteredCountries);
+  }, [countries, checkedRegions]);
 
   return (
     <section className="country-selector">
@@ -122,7 +144,11 @@ const CountrySelector = () => {
           ></CountryCard>
         ))}
       </div>
-      <CountryResults countries={countries} regions={regions}></CountryResults>
+      <CountryRegionFilter
+        regions={regions}
+        onRegionsChecked={regions => setCheckedRegions(regions)}
+      ></CountryRegionFilter>
+      <CountryResults countries={filteredResults}></CountryResults>
     </section>
   );
 };

@@ -1,10 +1,14 @@
 const PATH = {
   about: '/about',
-  not_found: '/not-found',
-  rate: {
+  countries: {
     root: '/countries',
-    details: '/:countryId',
+    paramName: '/:regionsParam?',
   },
+  country: {
+    root: '/country',
+    paramName: '/:countryId',
+  },
+  not_found: '/not-found',
   root: '/',
 };
 

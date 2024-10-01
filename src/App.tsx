@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 
 import './App.scss';
@@ -12,14 +12,11 @@ const App = () => {
   const [isLoading, setLoading] = useState(true);
 
   const onLoaded = () => {
-    console.log('set false to loading', isLoading);
     setLoading(false);
   };
 
-  useEffect(() => {
-    console.log('set true to loading', isLoading, location);
-    // TODO: Need to be fixed issue with order of useEffect hook and onLoaded function
-    // setLoading(true);
+  useLayoutEffect(() => {
+    setLoading(true);
   }, [location]);
 
   return (

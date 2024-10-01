@@ -9,18 +9,18 @@ import PATH from './utilities/constants/path';
 const router = [
   {
     path: `${PATH.root}`,
-    element: <Navigate to={PATH.rate.root} />,
+    element: <Navigate to={PATH.countries.root} />,
   },
   {
     path: `${PATH.about}`,
     element: <About />,
   },
   {
-    path: `${PATH.rate.root}`,
+    path: `${PATH.countries.root}${PATH.countries.paramName}`,
     element: <CountrySelector />,
   },
   {
-    path: `${PATH.rate.root}${PATH.rate.details}`,
+    path: `${PATH.country.root}${PATH.country.paramName}`,
     element: <CountryDetails />,
   },
 ];

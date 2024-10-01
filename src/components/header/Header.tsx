@@ -27,8 +27,8 @@ styles.attach();
 const Header = () => {
   const navigation = [
     {
-      path: PATH.rate.root,
-      name: 'Rate',
+      path: PATH.countries.root,
+      name: 'Rate countries',
     },
     {
       path: PATH.about,

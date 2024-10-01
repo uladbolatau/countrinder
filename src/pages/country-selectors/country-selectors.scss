@@ -1,7 +1,7 @@
 @import '../../styles/styles';
 
 .country-selector {
-  padding: $gap;
+  padding: $gap $gap 0;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
