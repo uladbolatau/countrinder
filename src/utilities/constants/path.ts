@@ -1,10 +1,10 @@
 const PATH = {
-  about: 'about',
+  about: '/about',
+  not_found: '/not-found',
   rate: {
-    root: '',
+    root: '/countries',
     details: '/:countryId',
   },
-  not_found: '/not-found',
   root: '/',
 };
 

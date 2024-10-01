@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import './country-details.scss';
@@ -15,21 +15,22 @@ import onLoadContext from '../../components/UI/loader/loader-context';
 
 const CountryDetails = () => {
   const setLoading = useContext(onLoadContext);
-
   const navigate = useNavigate();
   const { countryId } = useParams();
-  const [country, setCountry] = useState<ICountry>();
   const getCountryDataURL = `${API_DOMAIN_URL}/${API_COUNTRY_NAME}/${countryId?.replaceAll(
     '-',
     '%20'
   )}`;
+  const [isDataLoaded, setDataLoaded] = useState(false);
+  const [isImageLoaded, setImageLoaded] = useState(false);
+  const [country, setCountry] = useState<ICountry>();
 
   useFetch(
     getCountryDataURL,
     (countryDataArray: ApiCountryData[]) => {
       const country = CountryToModel(countryDataArray[0]);
       setCountry(country);
-      setLoading();
+      setDataLoaded(true);
     },
     error => {
       console.error('CountryDetails.useFetch', error);
@@ -38,10 +39,19 @@ const CountryDetails = () => {
     }
   );
 
+  useEffect(() => {
+    if (isDataLoaded && isImageLoaded) {
+      setLoading();
+    }
+  }, [isDataLoaded, isImageLoaded]);
+
   return (
     <section className="country-details">
       <div className="country-details-flag">
         <img
+          onLoad={() => {
+            setImageLoaded(true);
+          }}
           className="country-details-flag__img"
           src={country?.flagURL}
           alt={country?.name}

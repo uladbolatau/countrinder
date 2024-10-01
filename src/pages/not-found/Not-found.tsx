@@ -4,6 +4,7 @@ import PATH from '../../utilities/constants/path';
 import onLoadContext from '../../components/UI/loader/loader-context';
 
 import './not-found.scss';
+import Header from '../../components/header/Header';
 
 const NotFound = () => {
   const setLoading = useContext(onLoadContext);
@@ -13,12 +14,15 @@ const NotFound = () => {
   }, [setLoading]);
 
   return (
-    <section className="not-found">
-      <h1 className="not-found__title">Page not found</h1>
-      <Link className="not-found__back" to={`${PATH.root}`}>
-        Go home
-      </Link>
-    </section>
+    <>
+      <Header></Header>
+      <section className="not-found">
+        <h1 className="not-found__title">Page not found</h1>
+        <Link className="not-found__back" to={`${PATH.root}`}>
+          Go home
+        </Link>
+      </section>
+    </>
   );
 };
 
