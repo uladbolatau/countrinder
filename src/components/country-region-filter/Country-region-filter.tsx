@@ -38,6 +38,7 @@ const CountryRegionFilter = ({
                 type="checkbox"
                 name={region}
                 onChange={() => changeRegions(region)}
+                className="country-region-filter-item__checkbox"
               />
               {region}
             </label>

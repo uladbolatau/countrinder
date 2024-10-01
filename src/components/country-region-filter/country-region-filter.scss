@@ -17,4 +17,31 @@
     text-align: center;
     text-transform: uppercase;
   }
+
+  &-item {
+    &__label {
+      display: block;
+      padding: $gap-md;
+      color: var(--accent-color);
+      background-color: var(--background-color);
+      border: 1px solid var(--accent-color);
+      border-radius: 4px;
+      cursor: pointer;
+
+      &:has(:checked) {
+        background-color: var(--accent-fade-color);
+        color: var(--accent-contrast-color);
+      }
+    }
+
+    &__checkbox {
+      appearance: none;
+      appearance: none;
+      margin: 0;
+
+      &:checked {
+        background-color: red;
+      }
+    }
+  }
 }
