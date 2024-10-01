@@ -15,16 +15,15 @@ import CountryHelpers from '../../utilities/Country-helpers';
 
 const CountryDetails = () => {
   const setLoading = useContext(onLoadContext);
-
-  const [isDataLoaded, setDataLoaded] = useState(false);
-  const [isImageLoaded, setImageLoaded] = useState(false);
   const navigate = useNavigate();
   const { countryId } = useParams();
-  const [country, setCountry] = useState<ICountry>();
   const getCountryDataURL = `${API_DOMAIN_URL}/${API_COUNTRY_NAME}/${countryId?.replaceAll(
     '-',
     '%20'
   )}`;
+  const [isDataLoaded, setDataLoaded] = useState(false);
+  const [isImageLoaded, setImageLoaded] = useState(false);
+  const [country, setCountry] = useState<ICountry>();
 
   useFetch(
     getCountryDataURL,

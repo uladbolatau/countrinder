@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 
 import './App.scss';
 
-import Loader from './components/UI/loader/Loader';
-import CountrySelector from './pages/country-selectors/Country-selectors';
 import Header from './components/header/Header';
-import PATH from './utilities/constants/path';
-import About from './pages/about/About';
-import CountryDetails from './pages/country-details/Country-details';
-import NotFound from './pages/not-found/Not-found';
+import Loader from './components/UI/loader/Loader';
 import onLoadContext from './components/UI/loader/loader-context';
 
 const App = () => {
@@ -33,25 +28,7 @@ const App = () => {
       <Loader isLoading={isLoading}></Loader>
       <main className="main">
         <onLoadContext.Provider value={onLoaded}>
-          <Routes>
-            <Route
-              path={`${PATH.rate.root}`}
-              element={<CountrySelector></CountrySelector>}
-            />
-            <Route
-              path={`${PATH.rate.root}/${PATH.rate.details}`}
-              element={<CountryDetails></CountryDetails>}
-            />
-            <Route path={`${PATH.about}`} element={<About></About>} />
-            <Route
-              path={`${PATH.not_found}`}
-              element={<NotFound></NotFound>}
-            ></Route>
-            <Route
-              path="*"
-              element={<Navigate to={`${PATH.not_found}`} />}
-            ></Route>
-          </Routes>
+          <Outlet></Outlet>
         </onLoadContext.Provider>
       </main>
     </>
