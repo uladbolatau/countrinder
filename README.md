@@ -3,3 +3,4 @@
 # TODO
 - [ ] Load data from local storage
 - [ ] Save data between routers
+- [ ] Fix issue with root path on github page
