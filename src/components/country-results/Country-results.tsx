@@ -2,7 +2,9 @@ import React, { useMemo } from 'react';
 import ICountry from '../../utilities/models/ICountry';
 
 import './country-results.scss';
+
 import { Link } from 'react-router-dom';
+import { sortCountriesByRating } from '../../utilities/Country-helpers';
 import PATH from '../../utilities/constants/path';
 
 interface CountryResultsProps {
@@ -11,13 +13,7 @@ interface CountryResultsProps {
 
 const CountryResults = ({ countries }: CountryResultsProps) => {
   const renderFilteredResults = useMemo(() => {
-    return countries.sort((prevCountry, nextCountry) => {
-      if (prevCountry.rating - nextCountry.rating === 0) {
-        return prevCountry.name > nextCountry.name ? 1 : -1;
-      } else {
-        return prevCountry.rating - nextCountry.rating < 0 ? 1 : -1;
-      }
-    });
+    return sortCountriesByRating(countries);
   }, [countries]);
 
   return (

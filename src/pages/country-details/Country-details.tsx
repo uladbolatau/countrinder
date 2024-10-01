@@ -2,13 +2,14 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import './country-details.scss';
+
 import {
   API_COUNTRY_NAME,
   API_DOMAIN_URL,
 } from '../../utilities/constants/api';
 import PATH from '../../utilities/constants/path';
 import ApiCountryData from '../../utilities/types/api-cCountry-data';
-import { CountryToModel } from '../../utilities/Country-helpers';
+import { getCountryFromData } from '../../utilities/Country-helpers';
 import ICountry from '../../utilities/models/ICountry';
 import useFetch from '../../utilities/hooks/use-fetch';
 import onLoadContext from '../../components/UI/loader/loader-context';
@@ -21,6 +22,7 @@ const CountryDetails = () => {
     '-',
     '%20'
   )}`;
+
   const [isDataLoaded, setDataLoaded] = useState(false);
   const [isImageLoaded, setImageLoaded] = useState(false);
   const [country, setCountry] = useState<ICountry>();
@@ -28,7 +30,8 @@ const CountryDetails = () => {
   useFetch(
     getCountryDataURL,
     (countryDataArray: ApiCountryData[]) => {
-      const country = CountryToModel(countryDataArray[0]);
+      const country = getCountryFromData(countryDataArray[0]);
+
       setCountry(country);
       setDataLoaded(true);
     },

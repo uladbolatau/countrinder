@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import ICountry from '../../utilities/models/ICountry';
 
 import './country-card.scss';
+
 import Loader from '../UI/loader/Loader';
 
 interface CountryCardProps {

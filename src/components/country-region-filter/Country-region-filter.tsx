@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 
 import './country-region-filter.scss';
 
+import { changeRegionsList } from '../../utilities/Country-helpers';
+
 interface CountryRegionFilterProps {
   regions: string[];
   onRegionsChecked(regions: string[]): void;
@@ -13,17 +15,8 @@ const CountryRegionFilter = ({
 }: CountryRegionFilterProps) => {
   const [checkedRegions, setCheckedRegions] = useState<string[]>([]);
 
-  const onCheck = (regionName: string) => {
-    const regionIndex = checkedRegions.findIndex(
-      region => regionName === region
-    );
-    const newRegions: string[] = [...checkedRegions];
-
-    if (regionIndex === -1) {
-      newRegions.push(regionName);
-    } else {
-      newRegions.splice(regionIndex, 1);
-    }
+  const changeRegions = (regionName: string) => {
+    const newRegions = changeRegionsList(checkedRegions, regionName);
 
     setCheckedRegions(newRegions);
   };
@@ -44,7 +37,7 @@ const CountryRegionFilter = ({
               <input
                 type="checkbox"
                 name={region}
-                onChange={() => onCheck(region)}
+                onChange={() => changeRegions(region)}
               />
               {region}
             </label>

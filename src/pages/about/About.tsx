@@ -1,7 +1,8 @@
 import React, { useContext, useEffect } from 'react';
-import onLoadContext from '../../components/UI/loader/loader-context';
 
 import './about.scss';
+
+import onLoadContext from '../../components/UI/loader/loader-context';
 
 const About = () => {
   const setLoading = useContext(onLoadContext);
