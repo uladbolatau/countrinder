@@ -60,7 +60,7 @@ const CountryDetails = () => {
       <h1 className="country-details__title">{countryId}</h1>
       <ul className="country-details-list">
         <li className="country-details-list__item">
-          <strong>Capital:</strong> {country?.capital}
+          <strong>Capital:</strong> {country?.capital ?? '-'}
         </li>
         <li className="country-details-list__item">
           <strong>Your rate:</strong> {country?.rating}

@@ -48,6 +48,26 @@ const filterCountriesByRegions = (
 };
 
 /**
+ * Filters an array of countries based on a search term.
+ * @param {ICountry[]} countries - The array of countries to filter.
+ * @param {string} searchData - The search term used to filter countries by their names.
+ * @returns {ICountry[]} A new array containing countries that match the search term.
+ * If the search term is empty and no results are found, the original array is returned.
+ */
+const filterResultsBySearch = (countries: ICountry[], searchData: string) => {
+  const value = searchData.toLowerCase();
+  let filteredCountries = countries.filter(country => {
+    return country.name.toLowerCase().indexOf(value) > -1;
+  });
+
+  if (filteredCountries.length === 0 && !value) {
+    filteredCountries = countries;
+  }
+
+  return filteredCountries;
+};
+
+/**
  * Extracts countries and their regions from raw API data.
  * @param {ApiCountryData[]} countryRawData - Raw country data from an API.
  * @returns {Object} An object containing two arrays: one for countries (ICountry objects), and one for unique regions in string format.
@@ -186,10 +206,11 @@ const sortCountriesByRating = (countries: ICountry[]) => {
 
 export {
   changeRegionsList,
-  getCountryFromData,
-  sortCountriesByRating,
   filterCountriesByRegions,
-  setCountriesPairRate,
-  getCountriesPair,
+  filterResultsBySearch,
   getCountriesAndRegionsFromData,
+  getCountriesPair,
+  getCountryFromData,
+  setCountriesPairRate,
+  sortCountriesByRating,
 };
