@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import './country-region-filter.scss';
 
-import { changeRegionsList } from '../../utilities/Country-helpers';
+import { changeRegionsList } from '../../utils/Country-helpers';
 
 interface CountryRegionFilterProps {
   regions: string[];

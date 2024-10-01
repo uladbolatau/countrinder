@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import PATH from '../../utilities/constants/path';
+import PATH from '../../utils/constants/path';
 import onLoadContext from '../../components/UI/loader/loader-context';
 
 import './not-found.scss';

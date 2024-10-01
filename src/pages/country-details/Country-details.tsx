@@ -3,15 +3,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import './country-details.scss';
 
-import {
-  API_COUNTRY_NAME,
-  API_DOMAIN_URL,
-} from '../../utilities/constants/api';
-import PATH from '../../utilities/constants/path';
-import ApiCountryData from '../../utilities/types/api-cCountry-data';
-import { getCountryFromData } from '../../utilities/Country-helpers';
-import ICountry from '../../utilities/models/ICountry';
-import useFetch from '../../utilities/hooks/use-fetch';
+import { API_COUNTRY_NAME, API_DOMAIN_URL } from '../../utils/constants/api';
+import PATH from '../../utils/constants/path';
+import ApiCountryData from '../../utils/types/api-cCountry-data';
+import { getCountryFromData } from '../../utils/Country-helpers';
+import ICountry from '../../utils/models/ICountry';
+import useFetch from '../../utils/hooks/use-fetch';
 import onLoadContext from '../../components/UI/loader/loader-context';
 
 const CountryDetails = () => {

@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react';
-import ICountry from '../../utilities/models/ICountry';
+import ICountry from '../../utils/models/ICountry';
 
 import './country-results.scss';
 
 import { Link } from 'react-router-dom';
-import { sortCountriesByRating } from '../../utilities/Country-helpers';
-import PATH from '../../utilities/constants/path';
+import { sortCountriesByRating } from '../../utils/Country-helpers';
+import PATH from '../../utils/constants/path';
 
 interface CountryResultsProps {
   countries: ICountry[];

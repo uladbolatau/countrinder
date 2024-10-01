@@ -11,7 +11,7 @@ import './index.scss';
 import App from './App';
 import router from './App-routing';
 import NotFound from './pages/not-found/Not-found';
-import PATH from './utilities/constants/path';
+import PATH from './utils/constants/path';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

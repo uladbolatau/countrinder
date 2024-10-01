@@ -5,11 +5,8 @@ import { useNavigate } from 'react-router-dom';
 
 import './country-selectors.scss';
 
-import {
-  API_DOMAIN_URL,
-  API_ALL_COUNTRIES,
-} from '../../utilities/constants/api';
-import ApiCountryData from '../../utilities/types/api-cCountry-data';
+import { API_DOMAIN_URL, API_ALL_COUNTRIES } from '../../utils/constants/api';
+import ApiCountryData from '../../utils/types/api-cCountry-data';
 import CountryCard from '../../components/country-card/Country-card';
 import CountryRegionFilter from '../../components/country-region-filter/Country-region-filter';
 import CountryResults from '../../components/country-results/Country-results';
@@ -18,11 +15,11 @@ import {
   getCountriesAndRegionsFromData,
   getCountriesPair,
   setCountriesPairRate,
-} from '../../utilities/Country-helpers';
-import ICountry from '../../utilities/models/ICountry';
+} from '../../utils/Country-helpers';
+import ICountry from '../../utils/models/ICountry';
 import onLoadContext from '../../components/UI/loader/loader-context';
-import PATH from '../../utilities/constants/path';
-import useFetch from '../../utilities/hooks/use-fetch';
+import PATH from '../../utils/constants/path';
+import useFetch from '../../utils/hooks/use-fetch';
 
 const CountrySelector = () => {
   const setLoading = useContext(onLoadContext);

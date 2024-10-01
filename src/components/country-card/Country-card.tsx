@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import ICountry from '../../utilities/models/ICountry';
+import ICountry from '../../utils/models/ICountry';
 
 import './country-card.scss';
 

@@ -4,7 +4,7 @@ import { Navigate } from 'react-router-dom';
 import About from './pages/about/About';
 import CountryDetails from './pages/country-details/Country-details';
 import CountrySelector from './pages/country-selectors/Country-selectors';
-import PATH from './utilities/constants/path';
+import PATH from './utils/constants/path';
 
 const router = [
   {
