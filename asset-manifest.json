@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/countrinder/static/css/main.a1e94319.css",
-    "main.js": "/countrinder/static/js/main.706d157d.js",
+    "main.js": "/countrinder/static/js/main.116c7547.js",
     "index.html": "/countrinder/index.html",
     "main.a1e94319.css.map": "/countrinder/static/css/main.a1e94319.css.map",
-    "main.706d157d.js.map": "/countrinder/static/js/main.706d157d.js.map"
+    "main.116c7547.js.map": "/countrinder/static/js/main.116c7547.js.map"
   },
   "entrypoints": [
     "static/css/main.a1e94319.css",
-    "static/js/main.706d157d.js"
+    "static/js/main.116c7547.js"
   ]
 }
